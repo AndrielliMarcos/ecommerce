@@ -11,6 +11,8 @@ class Page
     private $tpl;
     private $options = [];
     private $defaults = [
+        "header"=>true,
+        "footer"=>true,
         "data"=>[]
     ];
 
@@ -31,8 +33,8 @@ class Page
         $this->setData($this->options["data"]);
 
         //desenhar o template na tela
-        //essas informações aparecerá m tods as páginas
-        $this->tpl->draw("header");
+        //essas informações aparecerá em tods as páginas, exceto na página de adminstrador, quer é false 
+        if($this->options["header"] === true) $this->tpl->draw("header");
 
     }
 
@@ -55,7 +57,7 @@ class Page
     {
         //desenhar o template na tela
         //essas informações aparecerá m tods as páginas
-        $this->tpl->draw("footer");
+        if($this->options["footer"] === true) $this->tpl->draw("footer");
     }
 }
 
