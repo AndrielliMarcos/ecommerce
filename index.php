@@ -5,12 +5,13 @@ require_once("vendor/autoload.php");
 //namespace
 use \Slim\Slim;
 use \Hcode\Page;
+use \Hcode\PageAdmin;
 
 $app = new Slim();
 
 $app->config('debug', true);
 
-//rota q está sendo chamada
+//rota para págia principal q está sendo chamada
 $app->get('/', function() {
     
 	$page = new Page();
@@ -19,6 +20,14 @@ $app->get('/', function() {
 
 });
 
+//rota ara página do adminstrador q está sendo chamada
+$app->get('/admin', function() {
+    
+	$page = new PageAdmin();
+
+	$page->setTpl("index");
+
+});
 $app->run();
 
  ?>
