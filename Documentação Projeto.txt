@@ -1,0 +1,5 @@
+Model.php
+Neste arquivo foram feitos métodos para chamar os métodos get e set das classes.
+
+Index.php
+Neste arquivo estão as rotas do projeto
