@@ -276,6 +276,22 @@ $app->post("/admin/categories/:idcategory", function($idcategory){
 	exit;
 });
 
+//rota para cada categoria criada
+//ao clicar no nome da cateroria na página, o usuario será enviado para a página correspondete
+$app->get("/categories/:idcategory", function($idcategory){
+
+	$category = new Category();
+
+	$category->get((int)$idcategory);
+
+	$page = new Page();
+
+	$page->setTpl("category",[
+		'category'=>$category->getValues(),
+		'products'=>[]
+	]);
+});
+
 
 $app->run();
 
