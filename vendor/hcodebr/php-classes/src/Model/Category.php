@@ -52,7 +52,7 @@ class Category extends Model{
         $sql = new Sql();
 
         $sql->query("DELETE FROM tb_categories WHERE idcategory = :idcategory", [
-            ':idcategory'=>$this->getcategory()
+            ':idcategory'=>$this->getidcategory()
         ]);
 
         //atualizar o arquivo categories-menu.html
