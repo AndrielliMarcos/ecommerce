@@ -76,4 +76,64 @@ class Category extends Model{
        file_put_contents($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "views" . DIRECTORY_SEPARATOR . "categories-menu.html", implode('', $html));
 
     }
+
+    //método que retorna todos os PRODUTOS
+    //o parâmetro nos dirá se o produto está ou não relacionado a esta categoria
+    public function getProducts($related = true)
+    {
+        $sql = new Sql();
+
+        if($related === true)
+        {
+           return $sql->select("
+              SELECT * FROM tb_products WHERE idproduct IN(
+                SELECT a.idproduct
+                FROM tb_products a 
+                INNER JOIN tb_productscategories b ON a.idproduct = b.idproduct
+                WHERE b.idcategory = :idcategory
+              );
+
+            ", [
+                ':idcategory'=>$this->getidcategory()
+            ]);
+        }
+        else
+        {
+            return $sql->select("
+              SELECT * FROM tb_products WHERE idproduct NOT IN(
+                SELECT a.idproduct
+                FROM tb_products a 
+                INNER JOIN tb_productscategories b ON a.idproduct = b.idproduct
+                WHERE b.idcategory = :idcategory
+              );
+
+            ", [
+                ':idcategory'=>$this->getidcategory()
+            ]);
+
+        }
+    }
+
+    //método para adicionar um produto na lista de categoria
+    public function addProduct(Product $product)
+    {
+        $sql = new Sql();
+
+        $sql->query("INSERT INTO tb_productscategories (idcategory, idproduct) VALUES (:idcategory, :idproduct)",[
+            ':idcategory'=>$this->getcategory(),
+            ':idproduct'=>$product->getidproduct()
+        ]);
+    }
+
+    //método para remover um produto na lista de categoria
+    public function removeProduct(Product $product)
+    {
+        $sql = new Sql();
+
+        $sql->query("DELETE FROM tb_productscategories WHERE idcategory = :idcategory AND idproduct = :idproduct)",[
+            ':idcategory'=>$this->getcategory(),
+            ':idproduct'=>$product->getidproduct()
+        ]);
+    }
+
 }
