@@ -13,6 +13,7 @@ $app = new Slim();
 $app->config('debug', true);
 
 //as rotas que têm havem com site, seram colocadas no arquivo site.php
+require_once("functions.php");
 require_once("site.php");
 require_once("admin.php");
 require_once("admin-users.php");
